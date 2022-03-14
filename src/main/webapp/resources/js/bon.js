@@ -51,7 +51,10 @@ function writegoodslist(data){
 	div.appendChild(span1);
 	div.appendChild(span2);
 	div.appendChild(span3);   
-	div.appendChild(span4);   
+	div.appendChild(span4);   const userData = [document.getElementsByName("stCode")[0],
+	document.getElementsByName("elCode")[0],
+	document.getElementsByName("elPassword")[0],
+	document.getElementsByName("publicIp")[0]];
 	div.appendChild(span5);           
 //속성을 포함해서 넣으면 어펜드, 태그부터 넣을거면 innerhtml, 태그안에 텍스트만 넣을거면 innerText
   list.appendChild(div);
@@ -121,25 +124,57 @@ function udtedGoodsInfo(data){
 
 
 function meLogIn(){
-	let userid =  document.getElementById("id").value;
-	let userpw =  document.getElementById("pw").value;
-	
-	let jsondata = [];
-	jsondata.push({"meCode":userid,"mePw":userpw});
-	const data = JSON.stringify(jsondata);
-	alert(data);
-	whatsend("meLogin",data,"writegoodslist",false,"post");
+	let form = document.getElementsByName("dynamicFormdata")[0];
+	form.submit();
 	
 }
-function logInModal() {
+
+
+
+function ctLogIn(){
+	
+
+     let  ip = jsPIp;
+alert(ip);
+
+	const hidden = makeInputElement("hidden","ahIp",ip,"");
+	
+	let form = document.getElementsByName("dynamicFormdata2")[0];
+	form.appendChild(hidden);
+	alert(form+"jj");
+	form.submit();
+	
+	
+}
+function getPublicIp(pip){
+	jsPIp = pip.ip;
+	
+}
+function meLogInModal() {
 	let container =  document.getElementById("container");
 	container.style.filter = "alpha(Opacity=50)";
 	container.style.display = "block";
 }
+
+
+function ctLogInModal() {
+	let container =  document.getElementById("containerSF");
+	container.style.filter = "alpha(Opacity=50)";
+	container.style.display = "block";
+	
+	
+}
+
 function closeModal(obj) {
+	 whatsend("https://api.ipify.org?format=json","","getPublicIp",false,"Get");
 	let container =  document.getElementById("container");
+	let containerSF =  document.getElementById("containerSF");
 	
 	container.style.display = "none";
+	containerSF.style.display = "none";
+	
+	
+	
 }
 
 function ajaxconnection(action, data, fn, content) {
@@ -162,7 +197,7 @@ function whatsend(action, data, fn, content,method) {
 	ajax.onreadystatechange = function() {
 		
 			if (ajax.readyState == 4 && ajax.status == 200) {
-			alert(ajax.responseText);
+		
 			window[fn](JSON.parse(ajax.responseText));
 		}
 	};
@@ -278,70 +313,21 @@ form.appendChild(ElCode);
 
 
 
-
-function initPage(){
-	 whatsend("https://api.ipify.org?format=json","","getPublicIp","Get");
-}
-
 function loadPage(msg){
 	if(!msg=="")
 	alert(msg);
 }
 
-function getPublicIp(pip){
-	jsPIp = pip.ip;
-}
 
 
-function logout(stcode,elcode){
-	
-   const form = makeForm("", "AccessOut", "post")
-    const StCode = makeInputElement("hidden","StCode",stcode,"");
-const ElCode = makeInputElement("hidden","ElCode",elcode,"");
-const PublicIp = makeInputElement("hidden","PublicIp",jsPIp,"");
-	form.appendChild(StCode);
-	form.appendChild(ElCode);
-	form.appendChild(PublicIp);
-      
-      document.body.appendChild(form);
-      form.submit();
+
+function logOut(session){
+	alert(11);
+	alert(session);
+	form.submit();
    
 }
 
-
-
-
-
-
-function makeForm(fname, faction, fmethod){
-	const form = document.createElement("form");
-	if(fname != ""){form.setAttribute("name", fname);}
-	form.setAttribute("action", faction);
-	form.setAttribute("method", fmethod);
-	return form;
-}
-
-function makeInputElement(type, name, value, placeholder){
-	const input = document.createElement("input");
-	input.setAttribute("type", type);
-	input.setAttribute("name", name);
-	if(value != ""){input.setAttribute("value", value);}
-	if(placeholder != ""){input.setAttribute("placeholder", placeholder);}
-	
-	return input;
-}
-
-
-function isEmpty(obj) {
-		let check = true;
-		if (obj.value == "") {
-			check = false;
-		}
-		return check;
-
-	}
-	
-	 
 function auth() {
 
 	
@@ -454,6 +440,16 @@ function refresh(stCode, elCode) {
 }
 
 
+function goGoodsPage(qctCode){
+	const form = makeForm("goGoods", "goGoodsPage", "POST");
+	const ctCode = makeInputElement("hidden", "ctCode", qctCode, "");
+	
+	form.appendChild(ctCode);
+	
+	document.body.appendChild(form);
+	
+	form.submit();
+}
 
 
 

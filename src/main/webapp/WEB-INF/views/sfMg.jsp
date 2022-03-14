@@ -5,6 +5,7 @@ pageEncoding="UTF-8"%>
 <head>
 <meta charset="UTF-8">
 <title>sfMg Page</title>
+<script src="res/js/bon.js"></script>
 </head>
 <body>
 	<div id="sfMg">
@@ -12,7 +13,9 @@ pageEncoding="UTF-8"%>
 			<div id="homeBtn">
 				<input type="button" value="HELP" onClick="meMg()"/>
 			</div>
-			<input type="button" value="로그아웃" onClick="logOut()" />
+			<div>${sfInfo}[0].sfId</div>
+			<input type="button" value="로그아웃" onClick="logOut('${sfInfo}')" />
+			
 		</div>
 		<div id="explainSf">
 			Staff<br> StaffManagement 
@@ -30,21 +33,22 @@ pageEncoding="UTF-8"%>
 				<input type="button" class="sfSearchBtn" value="검색" onClick="searchSfMg()"/>
 		</div>
 			<div class="category">
-            <p class="menuTitle" id="meMg" onClick="goMePage()">회원관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="sfMg" onClick="goSfPage()">직원관리</p>
-            
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="lessonMg" onClick="goLessonPage()">수업관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="goodsMg" onClick="goGoodsPage()">장비관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="payMg" onClick="goPayPage()">결제관리</p>
-         </div>
+				<p class="menuTitle" id="meMg" onClick="goMePage()">회원관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="sfMg" onClick="goSfPage()">직원관리</p>
+
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="lessonMg" onClick="goLessonPage()">수업관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="goodsMg" onClick="goGoodsPage()">장비관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="payMg" onClick="goPayPage()">결제관리</p>
+			</div>
+			
 	</div>
 </body>
 </html>

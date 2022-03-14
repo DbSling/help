@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,17 +9,15 @@ pageEncoding="UTF-8"%>
 <body>
 	<div id="lessonMg">
 		<div id="homeBtn">
-			<input type="button" value="HELP" onClick="meMg()"/>
+			<input type="button" value="HELP" onClick="meMg()" />
 		</div>
 		<div id="logOut">
 			<input type="button" value="로그아웃" onClick="logOut()" />
 		</div>
 		<div class="explainLs">
-			Lesson<br> LessonManagement 
-			<span onClick="getLsCaList(this)">수업가격설정</span>
-			<span onClick="getMaxLesson(this)">수업추가</span> 
-			<span onClick="modLesson(this)">수업수정</span>
-			<span onClick="delLesson()">수업삭제</span>
+			Lesson<br> LessonManagement <span onClick="getLsCaList(this)">수업가격설정</span>
+			<span onClick="getMaxLesson(this)">수업추가</span> <span
+				onClick="modLesson(this)">수업수정</span> <span onClick="delLesson()">수업삭제</span>
 		</div>
 		<div class="infoLs">
 			<script>
@@ -142,8 +140,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-wrap ui-check-date" data-term="5">
 				<select id="birthday-y-ko" title="연도 선택" data-default-option="연도 선택"
 					data-unit="y">연도
-				</select> 
-				<select id="birthday-m-ko" title="달 선택" data-default-option="달 선택"
+				</select> <select id="birthday-m-ko" title="달 선택" data-default-option="달 선택"
 					data-unit="m"></select> <select id="birthday-d-ko" title="일 선택"
 					data-default-option="일 선택" data-unit="d"></select> <input
 					type="time" /> <label for="trainerName"></label> <select>
@@ -151,8 +148,7 @@ pageEncoding="UTF-8"%>
 					<option value="이동명">이동명</option>
 					<option value="이유미">이유미</option>
 					<option value="이유미">김한울</option>
-				</select> <label for="lsName"></label> 
-				<select>
+				</select> <label for="lsName"></label> <select>
 					<option value="수업유형" selected>수업유형</option>
 					<option value="일반">일반</option>
 					<option value="PT">PT</option>
@@ -160,28 +156,27 @@ pageEncoding="UTF-8"%>
 					<option value="필라테스">필라테스</option>
 					<option value="줌바댄스">줌바댄스</option>
 					<option value="스피닝">스피닝</option>
-				</select>
-					 <span>search</span> 
-					 <input type="text" class="searchLesson" /> 
-					 <input type="button" class="lsSearchBtn" value="검색" onClick="searchLesson()"/>
+				</select> <span>search</span> <input type="text" class="searchLesson" /> <input
+					type="button" class="lsSearchBtn" value="검색"
+					onClick="searchLesson()" />
 			</div>
 
 			<div class="category">
-            <p class="menuTitle" id="meMg" onClick="goMePage()">회원관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="sfMg" onClick="goSfPage()">직원관리</p>
-            
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="lessonMg" onClick="goLessonPage()">수업관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="goodsMg" onClick="goGoodsPage()">장비관리</p>
-         </div>
-         <div class="category">
-            <p class="menuTitle" id="payMg" onClick="goPayPage()">결제관리</p>
-         </div>
+				<p class="menuTitle" id="meMg" onClick="goMePage()">회원관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="sfMg" onClick="goSfPage()">직원관리</p>
+
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="lessonMg" onClick="goLessonPage()">수업관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="goodsMg" onClick="goGoodsPage()">장비관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="payMg" onClick="goPayPage()">결제관리</p>
+			</div>
 		</div>
 	</div>
 </body>

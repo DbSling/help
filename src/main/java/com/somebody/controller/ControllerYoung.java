@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.somebody.serviece.auth.Authenticaion;
 
@@ -14,11 +15,7 @@ import com.somebody.serviece.equimpment.Equipment;
 
 import com.somebody.serviece.lesson.Lesson;
 
-import com.somebody.serviece.member.Member;
-
 import com.somebody.serviece.pay.Pay;
-
-import com.somebody.serviece.staff.Staff;
 
 import beans.Equipments;
 import beans.Members;
@@ -33,9 +30,9 @@ public class ControllerYoung {
 	@Autowired
 	Pay pa;
 
-	@RequestMapping(value = "/goGoodsPage", method = RequestMethod.POST)
-	public void goGoodsPage(Model model, @ModelAttribute Equipments eq) {
-		this.eq.backController("G01",eq);
+	@RequestMapping("/goGoodsPage")
+	public ModelAndView goGoodsPage(Model model, @ModelAttribute Equipments eq) {
+		return this.eq.backController1("G01",eq);
 	}
 	
 	@RequestMapping(value = "/payMg", method = RequestMethod.POST)

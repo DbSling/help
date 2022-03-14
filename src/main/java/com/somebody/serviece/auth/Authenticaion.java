@@ -29,6 +29,7 @@ import com.somebody.db.MapperYoung;
 
 import beans.Centers;
 import beans.Members;
+import beans.Staffs;
 import kr.co.icia.plzec.services.Encryption;
 import kr.co.icia.plzec.services.ProjectUtils;
 
@@ -67,12 +68,6 @@ public class Authenticaion extends CommonMethod {
 		String gs = null;
 
 		switch (sCode) {
-		case "A03":
-			ctLogin(ct);
-			break;
-		case "A04":
-			logOut(ct);
-			break;
 		case "A05":
 			sendEmailForm(ct);
 			break;
@@ -113,16 +108,40 @@ public class Authenticaion extends CommonMethod {
 	}
 	
 	
-	public ModelAndView backControllerM(String sCode, Members me) {
+	
+	
+	
+	public ModelAndView backControllerME(String sCode, Members me) {
 		String gs = null;
 		List<Members> senddata = null;
 		switch (sCode) {
 		case "A02":
-			meLogin( me);
+			meLogin(me);
 			break;
+		case "A04":
+			logOutMe(me);
+			break;
+		
 		}
 		return this.mav;
 	}
+	
+	public ModelAndView backControllerCT(String sCode, Staffs sf) {
+		String gs = null;
+		List<Members> senddata = null;
+		switch (sCode) {
+		case "A03":
+			ctLogin(sf);
+			break;
+		case "A04":
+			logOutCt(sf);
+			break;
+			
+		}
+		return this.mav;
+	}
+	
+	
 
 
 	public void checkMePw(Model model) {
@@ -136,24 +155,19 @@ public class Authenticaion extends CommonMethod {
 	public ModelAndView meLogin(Members mme) {
 
 		//아이디비번제어 일치시 로그인기록 저장
-		String changedPw = this.enc.encode(mme.getMePw());
+		String pw = this.enc.encode(mme.getMePw());
 	
 		System.out.println(mme.getMePw()+"여기비번");
-		System.out.println(changedPw);
+		System.out.println(pw);
 		
 
 		this.tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED,false);
 
 		try {
 			if ((String)this.pu.getAttribute("meInfo") == null) {
-				if (changedPw != null) {
-				System.out.println(mme.getMeCode());
-				System.out.println(this.mb.meLogin(mme)+"s");
+				if (pw != null) {
 				
-				
-				
-				
-				if (enc.matches(this.mb.meLogin(mme),changedPw)) {
+				if (enc.matches(this.mb.meLogin(mme),pw)) {
 					System.out.println(11);
 					//로그인 기록은 센터만 하기로 함 
 					this.mav.addObject("meInfo", this.mb.meInfo(mme));
@@ -176,13 +190,87 @@ public class Authenticaion extends CommonMethod {
 	}
 		
 
-	public void ctLogin(Centers ct) {
+	public ModelAndView ctLogin(Staffs sf) {
+				String pw = this.mb.sfLogin(sf);
+			
+
+				this.tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED,false);
+
+				try {
+					if ((String)this.pu.getAttribute("sfInfo") == null) {
+						if (pw != null && sf.getSfPw()!=null) {
+						if (enc.matches(sf.getSfPw(),pw)) {
+							//로그인 기록은 센터만 하기로 함 
+						
+							sf.setAhType("A1");
+							if(this.convertToBoolean(this.mb.insertAccessHistory(sf))) {
+								sf = this.mb.sfInfo(sf);
+								this.mav.addObject("sfInfo",sf);
+								tran = true;
+								this.tranend(tran);
+								pu.setAttribute("sfInfo", sf);
+								session.setMaxInactiveInterval(30*30) ;
+								this.mav.setViewName("sfMg");
+							};
+
+						}else {
+							this.message = "비밀번호가 일치하지 않습니다.";
+							this.mav.addObject(this.message);
+						}
+					}
+						this.message = "아이피가 없습니다.";
+						this.mav.addObject(this.message);
+				}} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return this.mav;
 
 	}
 
-	public void logOut(Centers ct) {
+	public void logOutMe(Members me) {
+		page = "redirect:/";// 기본페이지로 이동
+		this.mav.getModel().clear(); // 모델엔뷰 객체 지우기
+		
+		try {
+			pu.removeAttribute("meInfo");
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		
+		this.mav.setViewName(page);
 
 	}
+
+	
+	public void logOutCt(Staffs sf) {
+		System.out.println(1231231);
+		page = "redirect:/";// 기본페이지로 이동
+		this.mav.getModel().clear(); // 모델엔뷰 객체 지우기
+		try {
+
+			sf.setAhType("A2");
+			if (this.convertToBoolean(this.mb.insertAccessHistory(sf))) {
+			} else {
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} finally {
+			try {
+				pu.removeAttribute("sfInfo");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		this.mav.setViewName(page);
+
+	}
+		
+
+	
 
 	public void sendEmailForm(Centers ct) {
 

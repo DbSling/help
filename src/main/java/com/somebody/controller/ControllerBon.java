@@ -21,6 +21,7 @@ import com.somebody.serviece.staff.Staff;
 
 import beans.Centers;
 import beans.Members;
+import beans.Staffs;
 
 
 @Controller 
@@ -40,20 +41,33 @@ public class ControllerBon {
 	}
 
 	@RequestMapping(value = "/meLogin", method = RequestMethod.POST)
-	public ModelAndView meLogin(Model model, @RequestBody Members[] me) {
-		System.out.println(me[0].getMePw());
-		return this.auth.backControllerM("A02",me[0]);
+	public ModelAndView meLogin(Model model,@ModelAttribute Members me) {
+		
+		System.out.println(me.getMePw());
+		return this.auth.backControllerME("A02",me);
 	}
 
 	@RequestMapping(value = "/ctLogin", method = RequestMethod.POST)
-	public void ctLogin(Model model, @ModelAttribute Centers ct) {
-		this.auth.backController("A03",ct);
+	public ModelAndView ctLogin(Model model, @ModelAttribute Staffs sf) {
+		System.out.println(sf.getSfCtCode());
+		System.out.println(sf.getAhIp());
+		return this.auth.backControllerCT("A03",sf);
 	}
 
-	@RequestMapping(value = "/logOut", method = RequestMethod.GET)
-	public void logOut(Model model, @ModelAttribute Centers ct) {
-		this.auth.backController("A04",ct);
-	}
+	@RequestMapping(value = "/logOut", method = RequestMethod.POST)
+	public void logOut(Model model, @ModelAttribute Staffs sf,@ModelAttribute Members me) {
+		System.out.println(sf.getSfCtCode());
+		System.out.println(me.getMeCode());
+		if( sf.getSfId() != null) {
+			System.out.println(11);
+			this.auth.backControllerCT("A04",sf);
+		}else {
+			System.out.println(22);
+				this.auth.backControllerME("A04",me);
+			}
+		}
+		
+	
 
 	@RequestMapping(value = "/sendEmailForm", method = RequestMethod.GET)
 	public void sendEmailForm(Model model, @ModelAttribute Centers ct) {
