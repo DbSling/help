@@ -19,6 +19,7 @@ import com.somebody.serviece.staff.Staff;
 
 import beans.Centers;
 import beans.Equipments;
+import beans.Lessons;
 import beans.Members;
 import beans.Pays;
 
@@ -111,48 +112,48 @@ public class AjaxController {
 	}
 	
 	@RequestMapping(value = "/lessonMg", method = RequestMethod.POST)
-	public void lessonMg(Model model, @RequestBody Lesson ls) {
+	public void lessonMg(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L02",ls);
 	}
 	@RequestMapping(value = "/searchLesson", method = RequestMethod.POST)
-	public void searchLesson(Model model, @RequestBody Lesson ls) {
+	public void searchLesson(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L03",ls);
 	}
 	@RequestMapping(value = "/getLsCaList", method = RequestMethod.POST)
-	public void getLsCaList(Model model, @RequestBody Lesson ls) {
+	public void getLsCaList(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L04",ls);
 	}
 	@RequestMapping(value = "/insLsPay", method = RequestMethod.POST)
-	public void insLsPay(Model model, @RequestBody Lesson ls) {
+	public void insLsPay(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L05",ls);
 	}
 	@RequestMapping(value = "/getMaxLesson", method = RequestMethod.POST)
-	public void getMaxLesson(Model model, @RequestBody Lesson ls) {
+	public void getMaxLesson(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L06",ls);
 	}
 	@RequestMapping(value = "/insLesson", method = RequestMethod.POST)
-	public void insLesson(Model model, @RequestBody Lesson ls) {
+	public void insLesson(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L07",ls);
 	}
 	
 	
 	
-	//Young
+	//Yong
 	@RequestMapping(value = "/modLesson", method = RequestMethod.POST)
-	public void modLesson(Model model, @RequestBody Lesson ls) {
+	public void modLesson(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L09",ls);
 	}
 	@RequestMapping(value = "/lsMemDetail", method = RequestMethod.POST)
-	public void lsMemDetail() {
+	public void lsMemDetail(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L10",ls);
 	}
 	
 	@RequestMapping(value = "/modLsSuccess", method = RequestMethod.POST)
-	public void modLsSuccess(Model model, @RequestBody Lesson ls) {
+	public void modLsSuccess(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L11",ls);
 	}
 	@RequestMapping(value = "/delLesson", method = RequestMethod.POST)
-	public void delLesson(Model model, @RequestBody Lesson ls) {
+	public void delLesson(Model model, @RequestBody Lessons ls) {
 		this.ls.backController("L12",ls);
 	}
 	@RequestMapping(value = "/goodsMg", method = RequestMethod.POST)
@@ -166,18 +167,26 @@ public class AjaxController {
 		this.eq.backController("G03",eq[0], model);
 		return (List<Equipments>) model.getAttribute("searchGoods");
 	}
-	
+	@RequestMapping(value = "/getGoCaList", method = RequestMethod.POST)
+	public List<Equipments> getGoCaList(Model model, @RequestBody Equipments[] eq) {
+		this.eq.backController("G06", eq[0],model);
+		return (List<Equipments>) model.getAttribute("getGoCaList");
+	}
 	@RequestMapping(value = "/getGoodsCode", method = RequestMethod.POST)
-	public void getGoodsCode(Model model, @RequestBody Equipments[] eq) {
+	public List<Equipments> getGoodsCode(Model model, @RequestBody Equipments[] eq) {
 		this.eq.backController("G04", eq[0], model);
+		return (List<Equipments>) model.getAttribute("getEqCode");
 	}
 	@RequestMapping(value = "/insGoods", method = RequestMethod.POST)
-	public void insGoods(Model model, @RequestBody Equipments[] eq) {
+	public List<Equipments> insGoods(Model model, @RequestBody Equipments[] eq) {
 		this.eq.backController("G05", eq[0], model);
+		return (List<Equipments>) model.getAttribute("goodsList");
 	}
 	@RequestMapping(value = "/modGoods", method = RequestMethod.POST)
-	public void modGoods(Model model, @RequestBody Equipments[] eq) {
+	public List<Equipments> modGoods(Model model, @RequestBody Equipments[] eq) {
+	System.out.println("01. "+eq[0].getCtCode());
 		this.eq.backController("G07", eq[0], model);
+		return (List<Equipments>) model.getAttribute("modGoods");
 	}
 
 	@RequestMapping(value = "/onLoadPay", method = RequestMethod.POST)
@@ -193,6 +202,7 @@ public class AjaxController {
 	public void goMeJoinPage(Model model, @RequestBody Members me) {
 		this.auth.backController2("J03", me);
 	}
+	
 	
 	
 	

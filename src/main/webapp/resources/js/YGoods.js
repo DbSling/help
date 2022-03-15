@@ -18,8 +18,11 @@ function goodsMg(ctCode){
 	const data = JSON.stringify(json);
 	ajaxconnection("ajax/goodsMg", data, "goodsList", true);
 }
+
+
 let goodsInfo;
 function goodsList(json){
+	closeModal();
 	let body = document.getElementById("ajax");
 	let data;
 	if(json.length>0){
@@ -27,7 +30,7 @@ function goodsList(json){
 		data = "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>장비코드</span><span>&nbsp;&nbsp;&nbsp;&nbsp;장비명</span><span>&nbsp;&nbsp;&nbsp;&nbsp;분류</span><span>&nbsp;&nbsp;&nbsp;&nbsp;담당자</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;관리일자</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;상태</span></div>";
 		for(i=0;i<json.length;i++){
 			data += "<div>";
-			data += "<span>&nbsp;&nbsp;<input type=\"radio\" name=\"radibut\" value=\""+i+"\"></span>";
+			data += "<span>&nbsp;&nbsp;<input type=\"radio\" name=\"radibut\"/></span>";
 			data += "<span>&nbsp;&nbsp;&nbsp;"+json[i].eqCode+"</span>";
 			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].eqName+"</span>";
 			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].eqCaName+"</span>";
@@ -54,7 +57,7 @@ function searchGoods(ctcode){
 	}
 }
 
-function modGoods(ctcode){
+function getCaCode(ctcode){
 	var radio =document.getElementsByName("radibut");
 	let idx;
 	for (i=0; i<radio.length; i++) {
@@ -62,27 +65,124 @@ function modGoods(ctcode){
 			idx = i;
 		}
 	}
-	subModGoods();
-	document.getElementById("mdtitle").innerText = "장 비 수 정";
-	let data = "<div><span>장비코드</span><br><span id=\"ctCode\">"+goodsInfo[idx].eqCode+"</span></div>";
-	data += "<div><span>장비명</span><br><input type=\"text\" placeholder=\""+goodsInfo[idx].eqName+"\"/></div>";
-	data += "<div><span>분류</span><br><span>"+goodsInfo[idx].eqCaName+"</span></div>";
-	data += "<div><span>담당자</span><br><span>"+goodsInfo[idx].sfName+"</span></div>";
-	data += "<div><span>관리일자<span><br><span>도와줘 유일애몽!!!!!</span></div>";
-	data += "<div><span>상태</span><br>";
-	data += "<select id=\"caCodeList\">";
 	
-	data += "</select>"
+	document.getElementById("mdtitle").innerText = "장 비 수 정";
+	let data = "<div><span>장비코드</span><br><span id=\"meqCode\">"+goodsInfo[idx].eqCode+"</span></div>";
+	data += "<div><span>장비명</span><br><input type=\"text\" id=\"meqName\"value=\""+goodsInfo[idx].eqName+"\" placeholder=\"장비명을 입력해 주세요.\"/></div>";
+	data += "<div><span>담당자</span><br>";
+	data += "<select id = \"msfCode\"></select></div>";
+	data += "<div><span>관리일자<span><input id=\"egDate\" type=\"date\"/></div>";
+	data += "<div><span>분류</span><br>";
+	data += "<select id=\"mcaCode\">";
+	
+	data += "</select></div>";
+	data += "<div><span>상태</span><br>";
+	data += "<select id = \"mstCode\"></select></div>";
+	data += "<input type=\"button\" value=\"modify\" onclick=\"modGoods('"+ctcode+"')\"/>";
 	document.getElementById("mdbody").innerHTML=data;
-		openModal();
+	let json=[];
+	json.push({ctCode:ctcode});
+	const jsonData = JSON.stringify(json);
+	ajaxconnection("ajax/getGoCaList", jsonData, "subModGoods", true);
+	
+	openModal();
 }
 
-function subModGoods(){
+function subModGoods(caData){
+	const option = document.getElementById("mcaCode");
+	const sfCode = document.getElementById("msfCode");
+	const stCode = document.getElementById("mstCode");
+	let data1;
+	let data2;
+	let data3;
+	for(i=0;i<caData.length;i++){
+		if(caData[i].eqCaCode != null){
+			data1 += "<option value=\""+caData[i].eqCaCode+"\">"+caData[i].eqCaName+"</optiion>";
+		}
+	}
+	for(i=0;i<caData.length;i++){
+		if(caData[i].sfCode != null){
+			data2 += "<option value=\""+caData[i].sfCode+"\">"+caData[i].sfName+"</optiion>";
+		}
+	}
+	for(i=0;i<caData.length;i++){
+		if(caData[i].stCode != null){
+			data3 += "<option value=\""+caData[i].stCode+"\">"+caData[i].stName+"</optiion>";
+		}
+	}
+	option.innerHTML=data1;
+	sfCode.innerHTML=data2;
+	stCode.innerHTML=data3;
+}
+
+function modGoods(ctcode){
+	const eqcode = document.getElementById("meqCode");
+	const eqname = document.getElementById("meqName");
+	const sfcode = document.getElementById("msfCode");
+	const cacode = document.getElementById("mcaCode");
+	const stcode = document.getElementById("mstCode");
+	const egdate = document.getElementById("egDate").value;
+let json =[];
+json.push({ctCode:ctcode,eqCode:eqcode.innerText,eqName:eqname.value,sfCode:sfcode.value,eqCaCode:cacode.value,stCode:stcode.value,egDate:egdate.substr(0,4)+egdate.substr(5,2)+egdate.substr(8,2)});
+const data = JSON.stringify(json);
+ajaxconnection("ajax/modGoods", data, "goodsList", true);
+}
+
+function getGoodsCode(ctcode){
+	document.getElementById("mdtitle").innerText = "장 비 추 가";
+	let data = "<div><span>장비코드</span><br><select id=\"meqCode\"></select></div>";
+	data += "<div><span>장비명</span><br><input type=\"text\" id=\"meqName\"value=\"\" placeholder=\"장비명을 입력해 주세요.\"/></div>";
+	data += "<div><span>담당자</span><br>";
+	data += "<select id = \"msfCode\"></select></div>";
+	data += "<div><span>관리일자<span><input id=\"egDate\" type=\"date\"/></div>";
+	//+ "<div class=\"form-wrap ui-check-date\" data-term=\"5\">"
+	//+ "<select id=\"birthday-y-ko\" title=\"연도 선택\" data-default-option=\"연도 선택\" data-unit=\"y\">연도</select>"
+	//+ "<select id=\"birthday-m-ko\" title=\"달 선택\" data-default-option=\"달 선택\" data-unit=\"m\"></select>"
+	//+ "<select id=\"birthday-d-ko\" title=\"일 선택\" data-default-option=\"일 선택\" data-unit=\"d\"></select></div>";
+	data += "<div><span>분류</span><br>";
+	data += "<select id=\"mcaCode\">";
 	
+	data += "</select></div>";
+	data += "<div><span>상태</span><br>";
+	data += "<select id = \"mstCode\"></select></div>";
+	data += "<input type=\"button\" value=\"CREATE\" onclick=\"insGoods('"+ctcode+"')\"/>";
+	document.getElementById("mdbody").innerHTML=data;
+	let json=[];
+	json.push({ctCode:ctcode});
+	const jsonData = JSON.stringify(json);
+	ajaxconnection("ajax/getGoCaList", jsonData, "subModGoods", true);
+	ajaxconnection("ajax/getGoodsCode", jsonData, "getGoodsMaxCode", true);
+	openModal();
+}
+
+function getGoodsMaxCode(eqMaxCodes){
+	let data;
+	const meqCode = document.getElementById("meqCode");
+	for(i=0;i<eqMaxCodes.length;i++){
+		if(eqMaxCodes[i].eqCaCode=="E1"){
+			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">장비</option>"
+		}else if(eqMaxCodes[i].eqCaCode=="E2"){
+			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">용품</option>"
+		}else if(eqMaxCodes[i].eqCaCode=="E3"){
+			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">락커</option>"
+		}
+	}
+	meqCode.innerHTML=data;
 }
 
 function insGoods(ctcode){
-	openModal();
+	const eqcode = document.getElementById("meqCode");
+	const eqname = document.getElementById("meqName");
+	const sfcode = document.getElementById("msfCode");
+	const cacode = document.getElementById("mcaCode");
+	const stcode = document.getElementById("mstCode");
+	const egdate = document.getElementById("egDate").value;
+	
+	let json =[];
+	json.push({ctCode:ctcode,eqCode:eqcode.value,eqName:eqname.value,sfCode:sfcode.value,eqCaCode:cacode.value,stCode:stcode.value,egDate:egdate.substr(0,4)+egdate.substr(5,2)+egdate.substr(8,2)});
+	const data = JSON.stringify(json);
+	alert(data);
+	ajaxconnection("ajax/insGoods", data, "goodsList", true);
 }
 
 function openModal(){

@@ -17,10 +17,11 @@
 	min-height: 100%;
 	left: 0;
 	top: 0;
-	text-align:center;
+	text-align: center;
 }
 
-.goodsLog {border :2px solid white;
+.goodsLog {
+	border: 2px solid white;
 	border-radius: 25px;
 	background-color: #ffffff;
 	position: absolute;
@@ -28,11 +29,12 @@
 	left: 50%;
 	width: 90%;
 	height: 450px;
-	transform: translate(-50%,-50%);
+	transform: translate(-50%, -50%);
 }
 </style>
 </head>
 <body onload="goodsMg('${ctCode}')">
+
 	<div id="goodsMg">
 		<div id="homeBtn">
 			<input type="button" value="HELP" onClick="meMg()" />
@@ -41,19 +43,18 @@
 			<input type="button" value="로그아웃" onClick="logOut()" />
 		</div>
 		<div id="explainGo">
-			Goods<br> GoodsManagement <span onClick="insGoods('${ctCode}')">장비추가</span>
-			<span onClick="modGoods('${ctCode}')">장비수정</span>
+			Goods<br> GoodsManagement <span
+				onClick="getGoodsCode('${ctCode}')">장비추가</span> <span
+				onClick="getCaCode('${ctCode}')">장비수정</span>
 		</div>
 		<div id="infoGo">
-			<label for="searchGoods" >장비검색</label>
-			 <select id="searchCategory">
+			<label for="searchGoods">장비검색</label> <select id="searchCategory">
 				<option value="eqCaName" selected>분류</option>
 				<option value="eqName">장비명</option>
 				<option value="sfName">담당자</option>
-			</select>
-			<span>search</span>
-			<input type="text" class="searchGo" />
-			<input type="button" class="goSearchBtn" value="검색" onClick="searchGoods('${ctCode}')" />
+			</select> <span>search</span> <input type="text" class="searchGo" /> <input
+				type="button" class="goSearchBtn" value="검색"
+				onClick="searchGoods('${ctCode}')" />
 		</div>
 		<div id="ajax"></div>
 		<div class="category">
@@ -64,7 +65,8 @@
 
 		</div>
 		<div class="category">
-			<p class="menuTitle" id="lessonMg" onClick="goLessonPage('${ctCode}')">수업관리</p>
+			<p class="menuTitle" id="lessonMg"
+				onClick="goLessonPage('${ctCode}')">수업관리</p>
 		</div>
 		<div class="category">
 			<p class="menuTitle" id="goodsMg" onClick="goGoodsPage('${ctCode}')">장비관리</p>
@@ -73,17 +75,16 @@
 			<p class="menuTitle" id="payMg" onClick="goPayPage('${ctCode}')">결제관리</p>
 		</div>
 	</div>
-	<div class="gModal"id="gModal">
+	<div class="gModal" id="gModal">
 		<div class="goodsLog">
 			<div class="gcontent">
 				<div class="gheader">
 					<h4 class="mtitle" id="mdtitle"></h4>
 				</div>
-				<div class="mbody" id="mdbody">
-					
-				</div>
-				<div class="mbody"id="mbody">
-					<input type="button" class="mbtn" onclick="closeModal()"value="닫기"/>
+				
+				<div class="mbody" id="mdbody"></div>
+				<div class="mbody" id="mbody">
+					<input type="button" class="mbtn" onclick="closeModal()" value="닫기" />
 				</div>
 			</div>
 		</div>

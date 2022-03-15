@@ -5,6 +5,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somebody.db.CommonMethod;
@@ -41,8 +42,8 @@ public class Pay extends CommonMethod{
 	private DefaultTransactionDefinition txdef;
 
 	String page = null;
-
-	public void backController(String sCode, Pays pa) {
+	
+	public ModelAndView backController(String sCode, Pays pa) {
 		String gs = null;
 		String senddata = null;
 
@@ -50,6 +51,15 @@ public class Pay extends CommonMethod{
 		case "P01":
 			payMg(pa);
 			break;
+		}
+		return mav;
+	}
+
+	public void backController(String sCode, Pays pa, Model md) {
+		String gs = null;
+		String senddata = null;
+
+		switch (sCode) {
 		case "P02":
 			onLoadPay(pa);
 			break;
@@ -60,6 +70,9 @@ public class Pay extends CommonMethod{
 	}
 
 	public void payMg(Pays pa) {
+		//this.mav.addObject("ctCode", pa.getCtCode());
+				mav.addObject("ctCode", "1234567890");
+				mav.setViewName("payMg");
 	}
 
 	public void onLoadPay(Pays pa) {

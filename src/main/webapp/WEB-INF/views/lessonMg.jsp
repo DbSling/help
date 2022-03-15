@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>lessonMg Page</title>
+<script src="res/js/resource.js"></script>
 </head>
 <body>
 	<div id="lessonMg">
@@ -138,17 +139,20 @@
 				}
 			</script>
 			<div class="form-wrap ui-check-date" data-term="5">
-				<select id="birthday-y-ko" title="연도 선택" data-default-option="연도 선택"
-					data-unit="y">연도
-				</select> <select id="birthday-m-ko" title="달 선택" data-default-option="달 선택"
-					data-unit="m"></select> <select id="birthday-d-ko" title="일 선택"
-					data-default-option="일 선택" data-unit="d"></select> <input
-					type="time" /> <label for="trainerName"></label> <select>
+				<select id="birthday-y-ko" title="연도 선택" data-default-option="연도 선택" data-unit="y">연도</select>
+				 <select id="birthday-m-ko" title="달 선택" data-default-option="달 선택" data-unit="m"></select>
+				  <select id="birthday-d-ko" title="일 선택" data-default-option="일 선택" data-unit="d">
+				  </select> 
+				  <input type="time" />
+				   <label for="trainerName">
+				   </label> 
+				<select>
 					<option value="트레이너별" selected>트레이너별</option>
 					<option value="이동명">이동명</option>
 					<option value="이유미">이유미</option>
 					<option value="이유미">김한울</option>
-				</select> <label for="lsName"></label> <select>
+				</select> <label for="lsName"></label>
+				 <select>
 					<option value="수업유형" selected>수업유형</option>
 					<option value="일반">일반</option>
 					<option value="PT">PT</option>
@@ -160,22 +164,22 @@
 					type="button" class="lsSearchBtn" value="검색"
 					onClick="searchLesson()" />
 			</div>
+			<div id="ajax"></div>
+			<div class="category">
+				<p class="menuTitle" id="meMg" onClick="goMePage('${ctCode}')">회원관리</p>
+			</div>
+			<div class="category">
+				<p class="menuTitle" id="sfMg" onClick="goSfPage('${ctCode}')">직원관리</p>
 
-			<div class="category">
-				<p class="menuTitle" id="meMg" onClick="goMePage()">회원관리</p>
 			</div>
 			<div class="category">
-				<p class="menuTitle" id="sfMg" onClick="goSfPage()">직원관리</p>
-
+				<p class="menuTitle" id="lessonMg" onClick="goLessonPage('${ctCode}')">수업관리</p>
 			</div>
 			<div class="category">
-				<p class="menuTitle" id="lessonMg" onClick="goLessonPage()">수업관리</p>
+				<p class="menuTitle" id="goodsMg" onClick="goGoodsPage('${ctCode}')">장비관리</p>
 			</div>
 			<div class="category">
-				<p class="menuTitle" id="goodsMg" onClick="goGoodsPage()">장비관리</p>
-			</div>
-			<div class="category">
-				<p class="menuTitle" id="payMg" onClick="goPayPage()">결제관리</p>
+				<p class="menuTitle" id="payMg" onClick="goPayPage('${ctCode}')">결제관리</p>
 			</div>
 		</div>
 	</div>

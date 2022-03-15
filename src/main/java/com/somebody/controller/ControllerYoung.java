@@ -33,16 +33,16 @@ public class ControllerYoung {
 
 	@RequestMapping("/goGoodsPage")
 	public ModelAndView goGoodsPage(Model model, @ModelAttribute Equipments eq) {
-		return this.eq.backController1("G01",eq);
+		return this.eq.backController("G01",eq);
 	}
 	
 	@RequestMapping(value = "/payMg", method = RequestMethod.POST)
-	public void payMg(Model model, @ModelAttribute Pays pa) {
-		this.pa.backController("P01", pa);
+	public ModelAndView payMg(Model model, @ModelAttribute Pays pa) {
+		return this.pa.backController("P01", pa);
 	}
 	
 	@RequestMapping(value = "/psJoin", method = RequestMethod.POST)
-	public void psJoin(Model model, @ModelAttribute Members me) {
+	public void meJoin(Model model, @ModelAttribute Members me) {
 		this.auth.backController2("P05",me);
 	}
 	

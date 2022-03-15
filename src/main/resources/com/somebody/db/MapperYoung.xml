@@ -14,4 +14,35 @@
 	<select id="searchGoods" resultType = "beans.Equipments" parameterType = "beans.Equipments">
 		select * from kmasters.GoodsView where ctCode = '${ctCode}' and ${eqCaCode} = '${eqCaName}'
 	</select>
+	<select id="getGoCaList" resultType = "beans.Equipments">
+		select cacode as eqCaCode , caname as eqCaName from kmasters.ca where cacode like 'E_'
+	</select>
+	<select id="getGoSfList" resultType = "beans.Equipments">
+		select sfcode as sfCode , sfname as sfName from kmasters.sf where sfctcode = ${ctCode}
+	</select>
+	<select id="getGoStList" resultType = "beans.Equipments">
+		select stcode as stCode , stname as stName from kmasters.st where stcode like 'E_'
+	</select>
+	<update id="modGoods" parameterType = "beans.Equipments">
+		update kmasters.eq set eqcacode = '${eqCaCode}' , eqname = '${eqName}' where eqctcode = '${ctCode}' and eqcode = '${eqCode}'
+	</update>
+	<update id="modGoodsMg" parameterType = "beans.Equipments">	
+		update kmasters.eg set egsfcode = '${sfCode}' , egstcode = '${stCode}', egdate = '${egDate}' where egeqctcode = '${ctCode}' and  egeqcode = '${eqCode}'
+	</update>
+	<select id="getGoodsCodeE1" resultType = "beans.Equipments" parameterType = "beans.Equipments">
+		select Max(eqcode)+1 as eqCode, eqcacode as eqCaCode from kmasters.eq where eqcacode = 'E1' and eqctcode = ${ctCode} group by eqcacode
+	</select>
+	<select id="getGoodsCodeE2" resultType = "beans.Equipments" parameterType = "beans.Equipments">
+		select Max(eqcode)+1 as eqCode, eqcacode as eqCaCode from kmasters.eq where eqcacode = 'E2' and eqctcode = ${ctCode} group by eqcacode
+	</select>
+	<select id="getGoodsCodeE3" resultType = "beans.Equipments" parameterType = "beans.Equipments">
+		select Max(eqcode)+1 as eqCode, eqcacode as eqCaCode from kmasters.eq where eqcacode = 'E3' and eqctcode = ${ctCode} group by eqcacode
+	</select>
+	<insert id="inseq" parameterType = "beans.Equipments">
+		insert into kmasters.eq(eqctcode,eqcode,eqcacode,eqname) VALUES('${ctCode}','${eqCode}','${eqCaCode}','${eqName}')
+	</insert>
+	<insert id="inseg" parameterType = "beans.Equipments">
+		insert into kmasters.eg(egeqctcode,egeqcode,egsfcode,egstcode,egdate) values('${ctCode}','${eqCode}','${sfCode}','${stCode}','${egDate}')
+	</insert>
+	
 </mapper>

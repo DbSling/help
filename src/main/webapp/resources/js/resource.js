@@ -470,7 +470,16 @@ function goGoodsPage(qctCode){
 }
 
 
-
+function goLessonPage(ctcode){
+	const form = makeForm("goLesson", "goLessonPage", "POST");
+	const ctCode = makeInputElement("hidden", "ctCode", ctcode, "");
+	
+	form.appendChild(ctCode);
+	
+	document.body.appendChild(form);
+	
+	form.submit();
+}
 	
 
 		
