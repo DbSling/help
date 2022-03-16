@@ -16,6 +16,7 @@ import com.somebody.serviece.lesson.Lesson;
 
 import com.somebody.serviece.pay.Pay;
 
+import beans.Centers;
 import beans.Equipments;
 import beans.Members;
 import beans.Pays;
@@ -32,20 +33,29 @@ public class ControllerYoung {
 	Pay pa;
 
 	@RequestMapping("/goGoodsPage")
-	public ModelAndView goGoodsPage(Model model, @ModelAttribute Equipments eq) {
+	public ModelAndView goGoodsPage(@ModelAttribute Equipments eq) {
 		return this.eq.backController("G01",eq);
 	}
 	
-	@RequestMapping(value = "/payMg", method = RequestMethod.POST)
-	public ModelAndView payMg(Model model, @ModelAttribute Pays pa) {
+	@RequestMapping(value = "/goPayPage", method = RequestMethod.POST)
+	public ModelAndView payMg(@ModelAttribute Pays pa) {
 		return this.pa.backController("P01", pa);
 	}
 	
-	@RequestMapping(value = "/psJoin", method = RequestMethod.POST)
-	public void meJoin(Model model, @ModelAttribute Members me) {
-		this.auth.backController2("P05",me);
+	@RequestMapping("/goJoinPage")
+	public ModelAndView goJoinPage(@ModelAttribute Members me) {
+		return this.auth.backController("J01",me);
 	}
 	
+	@RequestMapping(value = "/meJoin", method = RequestMethod.POST)
+	public ModelAndView meJoin(@ModelAttribute Members me) {
+		return this.auth.backController("J03",me);
+	}
+	
+	@RequestMapping(value = "/ctJoin", method = RequestMethod.POST)
+	public ModelAndView ctJoin(Model model, @ModelAttribute Centers ct) {
+		return this.auth.backController2("J02",ct);
+	}
 	
 	
 	

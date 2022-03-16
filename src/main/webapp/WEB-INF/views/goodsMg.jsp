@@ -56,7 +56,7 @@
 				type="button" class="goSearchBtn" value="검색"
 				onClick="searchGoods('${ctCode}')" />
 		</div>
-		<div id="ajax"></div>
+		<table id="ajax"></table>
 		<div class="category">
 			<p class="menuTitle" id="meMg" onClick="goMePage('${ctCode}')">회원관리</p>
 		</div>
@@ -81,7 +81,6 @@
 				<div class="gheader">
 					<h4 class="mtitle" id="mdtitle"></h4>
 				</div>
-				
 				<div class="mbody" id="mdbody"></div>
 				<div class="mbody" id="mbody">
 					<input type="button" class="mbtn" onclick="closeModal()" value="닫기" />

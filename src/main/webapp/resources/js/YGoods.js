@@ -27,16 +27,17 @@ function goodsList(json){
 	let data;
 	if(json.length>0){
 		goodsInfo = json;
-		data = "<div><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>장비코드</span><span>&nbsp;&nbsp;&nbsp;&nbsp;장비명</span><span>&nbsp;&nbsp;&nbsp;&nbsp;분류</span><span>&nbsp;&nbsp;&nbsp;&nbsp;담당자</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;관리일자</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;상태</span></div>";
+		data = "<tr><td></td><td>장비코드</td><td>장비명</td><td>분류</td><td>담당자</td><td>관리일자</td><td>상태</td></tr>";
 		for(i=0;i<json.length;i++){
-			data += "<div>";
-			data += "<span>&nbsp;&nbsp;<input type=\"radio\" name=\"radibut\"/></span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;"+json[i].eqCode+"</span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].eqName+"</span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].eqCaName+"</span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].sfName+"</span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].egDate+"</span>";
-			data += "<span>&nbsp;&nbsp;&nbsp;&nbsp;"+json[i].stName+"</span>";
+			data += "<tr>";
+			data += "<td><input type=\"radio\" name=\"radibut\"/></td>";
+			data += "<td>"+json[i].eqCode+"</td>";
+			data += "<td>"+json[i].eqName+"</td>";
+			data += "<td>"+json[i].eqCaName+"</td>";
+			data += "<td>"+json[i].sfName+"</td>";
+			data += "<td>"+json[i].egDate+"</td>";
+			data += "<td>"+json[i].stName+"</td>";
+			data += "</tr>"
 		}
 	body.innerHTML = data;
 	}else{const msg = document.getElementsByClassName("searchGo")[0];
@@ -69,22 +70,16 @@ function getCaCode(ctcode){
 	document.getElementById("mdtitle").innerText = "장 비 수 정";
 	let data = "<div><span>장비코드</span><br><span id=\"meqCode\">"+goodsInfo[idx].eqCode+"</span></div>";
 	data += "<div><span>장비명</span><br><input type=\"text\" id=\"meqName\"value=\""+goodsInfo[idx].eqName+"\" placeholder=\"장비명을 입력해 주세요.\"/></div>";
-	data += "<div><span>담당자</span><br>";
-	data += "<select id = \"msfCode\"></select></div>";
+	data += "<div><span>담당자</span><br><select id = \"msfCode\"></select></div>";
 	data += "<div><span>관리일자<span><input id=\"egDate\" type=\"date\"/></div>";
-	data += "<div><span>분류</span><br>";
-	data += "<select id=\"mcaCode\">";
-	
-	data += "</select></div>";
-	data += "<div><span>상태</span><br>";
-	data += "<select id = \"mstCode\"></select></div>";
+	data += "<div><span>분류</span><br><select id=\"mcaCode\"></select></div>";
+	data += "<div><span>상태</span><br><select id = \"mstCode\"></select></div>";
 	data += "<input type=\"button\" value=\"modify\" onclick=\"modGoods('"+ctcode+"')\"/>";
 	document.getElementById("mdbody").innerHTML=data;
 	let json=[];
 	json.push({ctCode:ctcode});
 	const jsonData = JSON.stringify(json);
 	ajaxconnection("ajax/getGoCaList", jsonData, "subModGoods", true);
-	
 	openModal();
 }
 
@@ -92,6 +87,7 @@ function subModGoods(caData){
 	const option = document.getElementById("mcaCode");
 	const sfCode = document.getElementById("msfCode");
 	const stCode = document.getElementById("mstCode");
+	const egdate = document.getElementById("egDate");
 	let data1;
 	let data2;
 	let data3;
@@ -113,6 +109,7 @@ function subModGoods(caData){
 	option.innerHTML=data1;
 	sfCode.innerHTML=data2;
 	stCode.innerHTML=data3;
+	egdate.value = new Date().toISOString().substring(0, 10);
 }
 
 function modGoods(ctcode){
@@ -130,17 +127,13 @@ ajaxconnection("ajax/modGoods", data, "goodsList", true);
 
 function getGoodsCode(ctcode){
 	document.getElementById("mdtitle").innerText = "장 비 추 가";
-	let data = "<div><span>장비코드</span><br><select id=\"meqCode\"></select></div>";
+	let data = "<div><span>장비코드</span><br><select id=\"meqCode\" onchange=\"change()\"></select></div>";
 	data += "<div><span>장비명</span><br><input type=\"text\" id=\"meqName\"value=\"\" placeholder=\"장비명을 입력해 주세요.\"/></div>";
 	data += "<div><span>담당자</span><br>";
 	data += "<select id = \"msfCode\"></select></div>";
 	data += "<div><span>관리일자<span><input id=\"egDate\" type=\"date\"/></div>";
-	//+ "<div class=\"form-wrap ui-check-date\" data-term=\"5\">"
-	//+ "<select id=\"birthday-y-ko\" title=\"연도 선택\" data-default-option=\"연도 선택\" data-unit=\"y\">연도</select>"
-	//+ "<select id=\"birthday-m-ko\" title=\"달 선택\" data-default-option=\"달 선택\" data-unit=\"m\"></select>"
-	//+ "<select id=\"birthday-d-ko\" title=\"일 선택\" data-default-option=\"일 선택\" data-unit=\"d\"></select></div>";
 	data += "<div><span>분류</span><br>";
-	data += "<select id=\"mcaCode\">";
+	data += "<select id=\"mcaCode\"onchange=\"change2()\">";
 	
 	data += "</select></div>";
 	data += "<div><span>상태</span><br>";
@@ -164,7 +157,7 @@ function getGoodsMaxCode(eqMaxCodes){
 		}else if(eqMaxCodes[i].eqCaCode=="E2"){
 			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">용품</option>"
 		}else if(eqMaxCodes[i].eqCaCode=="E3"){
-			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">락커</option>"
+			data += "<option value=\""+eqMaxCodes[i].eqCode+"\">락카</option>"
 		}
 	}
 	meqCode.innerHTML=data;
@@ -181,7 +174,6 @@ function insGoods(ctcode){
 	let json =[];
 	json.push({ctCode:ctcode,eqCode:eqcode.value,eqName:eqname.value,sfCode:sfcode.value,eqCaCode:cacode.value,stCode:stcode.value,egDate:egdate.substr(0,4)+egdate.substr(5,2)+egdate.substr(8,2)});
 	const data = JSON.stringify(json);
-	alert(data);
 	ajaxconnection("ajax/insGoods", data, "goodsList", true);
 }
 
@@ -197,7 +189,27 @@ function closeModal(){
 }
 
 
+function change(){
+	const eqcode = document.getElementById("meqCode");
+	const eqcacode = document.getElementById("mcaCode");
+	
+	for(i=0;i<eqcode.length;i++){
+		if(eqcode.options[eqcode.selectedIndex].innerText==eqcacode.options[i].innerText){
+			eqcacode.options[i].setAttribute('selected', '');
+		}
+	}
+}
 
+function change2(){
+	const eqcode = document.getElementById("meqCode");
+	const eqcacode = document.getElementById("mcaCode");
+	
+	for(i=0;i<eqcacode.length;i++){
+		if(eqcacode.options[eqcacode.selectedIndex].innerText==eqcode.options[i].innerText){
+			eqcode.options[i].setAttribute('selected', '');
+		}
+	}
+}
 
 
 

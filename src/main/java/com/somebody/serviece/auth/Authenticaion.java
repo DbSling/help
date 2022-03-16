@@ -1,5 +1,7 @@
 package com.somebody.serviece.auth;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somebody.db.CommonMethod;
@@ -33,8 +36,8 @@ public class Authenticaion extends CommonMethod {
 	private MapperDong md;
 	@Autowired
 	private MapperUone mo;
-	
-	
+
+
 	private ModelAndView mav;
 	@Autowired
 	private ProjectUtils pu;
@@ -42,7 +45,7 @@ public class Authenticaion extends CommonMethod {
 	private Encryption enc;
 	@Autowired
 	HttpSession session;
-	
+
 	String page = null;
 	boolean tran = false;
 
@@ -51,11 +54,9 @@ public class Authenticaion extends CommonMethod {
 	}
 
 	public void backController(String sCode, Centers ct) {
-		String gs = null;
-		String senddata = null;
 
 		switch (sCode) {
-		
+
 		case "A03":
 			ctLogin(ct);
 			break;
@@ -71,12 +72,8 @@ public class Authenticaion extends CommonMethod {
 		case "J01":
 			ctJoinForm(ct);
 			break;
-		case "J02":
-			ctJoin(ct);
-			break;
-		case "P05":
-			psJoin(ct);
-			break;
+
+
 		case "P04":
 			getSelectCenter(ct);
 			break;
@@ -85,28 +82,75 @@ public class Authenticaion extends CommonMethod {
 	}
 
 	public void backController2(String sCode, Members me) {
-		String gs = null;
-		String senddata = null;
 
 		switch (sCode) {
 		case "A02":
 			meLogin(me);
-			break;
-		case "J03":
-			goMeJoinPage(me);
 			break;
 		case "C14":
 			checkMePw(me);
 			break;
 		}
 	}
-	public void checkMePw(Members me) {
-		
 
+
+	public void backController2(String sCode, Model md) {
+		switch (sCode) {
+		case "C01":
+			checkMeEmailNum(md);
+			break;
+
+		case "C02":
+			checkCtCode(md);
+			break;
+		}
 	}
 
-	private void goMeJoinPage(Members me) {
-		
+	public ModelAndView backController(String sCode, Members me) {
+
+		switch (sCode) {
+		case "J01":
+			goJoinPage();
+			break;
+		case "J03":
+			meJoin(me);
+			break;
+		}
+		return mav;
+	}
+
+	public ModelAndView backController2(String sCode, Centers ct) {
+		switch (sCode) {
+		case "J02":
+			ctJoin(ct);
+			break;
+		}
+		return mav;
+	}
+
+	private void goJoinPage() {
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		mav.addObject("maxMeCode", this.my.maxCode());
+		mav.setViewName("join");
+		tranend(true);
+	}
+
+	private void checkMeEmailNum(Model md) {
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		md.addAttribute("checkMeEmailNum",this.my.checkMeEmailNum());
+		tranend(true);
+	}
+
+
+	private void checkCtCode(Model md) {
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		md.addAttribute("checkCtCode",this.my.checkCtCode());
+		tranend(true);
+	}
+
+
+	public void checkMePw(Members me) {
+
 
 	}
 
@@ -119,7 +163,7 @@ public class Authenticaion extends CommonMethod {
 		if(this.convertToBoolean(this.mb.is(ct))) {
 			tran = true;
 		}
-	this.tranend(tran);
+		this.tranend(tran);
 	}
 
 	public void logOut(Centers ct) {
@@ -139,11 +183,35 @@ public class Authenticaion extends CommonMethod {
 	}
 
 	public void ctJoin(Centers ct) {
-
+		page= "join";
+		String msg= "가입실패~!";
+		this.tranconfig(TransactionDefinition.PROPAGATION_REQUIRED,TransactionDefinition.ISOLATION_READ_COMMITTED,false);
+		ct.setSfPw(this.enc.encode(ct.getSfPw()));
+		if(convertToBoolean(this.my.ctJoin(ct))) {
+			if(convertToBoolean(this.my.firstSfJoin(ct))) {
+				page = "login";
+				tran = true;
+				msg = "가입성공~!";
+			}
+		}
+		this.tranend(tran);
+		mav.addObject("msg", msg);
+		mav.setViewName(page);
 	}
 
-	public void psJoin(Centers ct) {
-
+	public void meJoin(Members me) {
+		page= "join";
+		String msg= "가입실패~!";
+		this.tranconfig(TransactionDefinition.PROPAGATION_REQUIRED,TransactionDefinition.ISOLATION_READ_COMMITTED,false);
+		me.setMePw(this.enc.encode(me.getMePw()));
+		if(convertToBoolean(this.my.meJoin(me))) {
+			page = "login";
+			tran = true;
+			msg = "가입성공~!";
+		}
+		this.tranend(tran);
+		mav.addObject("msg", msg);
+		mav.setViewName(page);
 	}
 
 	public void getSelectCenter(Centers ct) {

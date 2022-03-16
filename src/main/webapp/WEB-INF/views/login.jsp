@@ -43,6 +43,7 @@
 				<td><a  href="PasswordForm" >비밀번호 찾기는 여기서</a>
 				<a  href="getFilePage" >파일업로드</a></td>
 			</tr>
+			<input type="button" value="가입" onclick="goJoinPage()"/>
 
 		</table>
 	</form>

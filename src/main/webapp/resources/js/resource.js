@@ -70,7 +70,7 @@ function writegoodslist(data){
      }
 }
 
-//모달에서 상세정보보
+//모달에서 상세정보보보보 보보보
 function showGoodsinModal(idx){
 	
 	let mheader = document.getElementById("mheader");
@@ -480,7 +480,25 @@ function goLessonPage(ctcode){
 	
 	form.submit();
 }
+
+function goPayPage(ctcode){
+	const form = makeForm("goPay", "goPayPage", "POST");
+	const ctCode = makeInputElement("hidden", "ctCode", ctcode, "");
 	
+	form.appendChild(ctCode);
+	
+	document.body.appendChild(form);
+	
+	form.submit();
+}
+
+function goJoinPage(){
+	const form = makeForm("goJoin", "goJoinPage", "POST");
+	
+	document.body.appendChild(form);
+	
+	form.submit();
+}
 
 		
 		

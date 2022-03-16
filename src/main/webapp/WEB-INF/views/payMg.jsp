@@ -5,23 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="res/js/resource.js"></script>
+<script src="res/js/YPay.js"></script>
 </head>
-<body onLoad = "onLoadPay()">
+<body onLoad = "onLoadPay('${ctCode}')">
 <div id = "topMenu">
 	<div class = "menuContainer">
 	<section class = "menuContainer">
 	<article class="topmenu">
-	<span class="topMenu" id="logOut" onClick="logOut()">로그아웃</span>
+	<span class="topMenu" id="logOut" onClick="logOut()">로그아웃${paGraph[0].paTotal}</span>
 	</article>
 	</section>
 	</div>
 </div>
-
 <div>
 <div class = "middle">
 <form>
-<input type="date"/>
-<input type="button" value = "찾기" onClick = "payMg()"></input>
+<input id="searchDate" type="date"/>
+<input type="button" value = "찾기" onClick = "searchPay('${ctCode}')"/>
 </form>
 </div>
 
@@ -30,7 +31,7 @@
 <canvas id="bar-chart" width="300" height="230"></canvas>
 </div>
 </div>
-
+<table id="ajax"></table>
 <div>
 <script>
 const d = new Date();
@@ -40,14 +41,15 @@ const month = d.getMonth();   // 월
 new Chart(document.getElementById("bar-chart"), {
     type: 'bar',
     data: {
-      labels: [new Date(year, month - 3).toLocaleDateString().substring(2,8), 			new Date(year, month - 2).toLocaleDateString().substring(2,8),
+      labels: [new Date(year, month - 3).toLocaleDateString().substring(2,8),
+	  new Date(year, month - 2).toLocaleDateString().substring(2,8),
       new Date(year, month - 1).toLocaleDateString().substring(2,8)],
       datasets: [
         {
         
           label: "만원",
           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-          data: [3000,2500,3500]
+          data: [${paGraph[0].paTotal},2500,3500]
         }
       ]
     },

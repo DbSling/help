@@ -3,6 +3,7 @@ package com.somebody.serviece.pay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
@@ -41,11 +42,14 @@ public class Pay extends CommonMethod{
 
 	private DefaultTransactionDefinition txdef;
 
+	
+	public Pay() {
+		mav = new ModelAndView();
+	}
+	
 	String page = null;
 	
 	public ModelAndView backController(String sCode, Pays pa) {
-		String gs = null;
-		String senddata = null;
 
 		switch (sCode) {
 		case "P01":
@@ -56,29 +60,40 @@ public class Pay extends CommonMethod{
 	}
 
 	public void backController(String sCode, Pays pa, Model md) {
-		String gs = null;
-		String senddata = null;
 
 		switch (sCode) {
 		case "P02":
-			onLoadPay(pa);
+			onLoadPay(pa, md);
 			break;
 		case "P03":
-			searchPay(pa);
+			searchPay(pa, md);
 			break;
 		}
 	}
 
 	public void payMg(Pays pa) {
-		//this.mav.addObject("ctCode", pa.getCtCode());
-				mav.addObject("ctCode", "1234567890");
-				mav.setViewName("payMg");
+System.out.println(pa.getCtCode());
+System.out.println(this.my.payGraph(pa));
+		this.mav.addObject("paGraph", this.my.payGraph(pa));
+		this.mav.addObject("ctCode", pa.getCtCode());
+		mav.setViewName("payMg");
 	}
 
-	public void onLoadPay(Pays pa) {
+	public void onLoadPay(Pays pa, Model md) {
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		md.addAttribute("payList",this.my.payList(pa));
+		tranend(true);
 	}
 
-	public void searchPay(Pays pa) {
+	public void searchPay(Pays pa, Model md) {
+		String a1="";
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		for(int i=0; i< pa.getPaDate().split("-").length;i++) {
+			a1 += pa.getPaDate().split("-")[i];
+		}
+		pa.setPaDate(a1);
+		md.addAttribute("payList",this.my.searchPay(pa));
+		tranend(true);
 	}
 
 }

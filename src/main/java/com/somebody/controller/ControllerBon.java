@@ -64,16 +64,6 @@ public class ControllerBon {
 	public void sendEmailForm(Model model, @ModelAttribute Centers ct) {
 		this.auth.backController("A05",ct);
 	}
-
-	@RequestMapping(value = "/ctJoinForm", method = RequestMethod.GET)
-	public void ctJoinForm(Model model, @ModelAttribute Centers ct) {
-		this.auth.backController("J01",ct);
-	}
-
-	@RequestMapping(value = "/ctJoin", method = RequestMethod.POST)
-	public void ctJoin(Model model, @ModelAttribute Centers ct) {
-		this.auth.backController("J02",ct);
-	}
 	@RequestMapping(value = "/goMePage", method = RequestMethod.POST)
 	public void goMePage(Model model, @ModelAttribute Members me) {
 		this.me.backController("M01", me);

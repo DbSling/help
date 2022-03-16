@@ -190,17 +190,25 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = "/onLoadPay", method = RequestMethod.POST)
-	public void onLoadPay(Model model, @RequestBody Pays pa) {
-		this.pa.backController("P02", pa);
+	public List<Pays> onLoadPay(Model model, @RequestBody Pays[] pa) {
+		this.pa.backController("P02", pa[0], model);
+		return (List<Pays>) model.getAttribute("payList");
 	}
 
 	@RequestMapping(value = "/searchPay", method = RequestMethod.POST)
-	public void searchPay(Model model, @RequestBody Pays pa) {
-		this.pa.backController("P03", pa);
+	public List<Pays> searchPay(Model model, @RequestBody Pays[] pa) {
+		this.pa.backController("P03", pa[0], model);
+		return (List<Pays>) model.getAttribute("payList");
 	}
-	@RequestMapping(value = "/goMeJoinPage", method = RequestMethod.POST)
-	public void goMeJoinPage(Model model, @RequestBody Members me) {
-		this.auth.backController2("J03", me);
+	@RequestMapping(value = "/meEmailNum", method = RequestMethod.POST)
+	public List<Members> checkMeEmailNum(Model model) {
+		this.auth.backController2("C01", model);
+		return (List<Members>) model.getAttribute("checkMeEmailNum");
+	}
+	@RequestMapping(value = "/checkCtCode", method = RequestMethod.POST)
+	public List<Centers> checkCtCode(Model model) {
+		this.auth.backController2("C02", model);
+		return (List<Centers>) model.getAttribute("checkCtCode");
 	}
 	
 	
