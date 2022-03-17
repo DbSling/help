@@ -10,9 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somebody.db.CommonMethod;
-import com.somebody.db.MapperBon;
-import com.somebody.db.MapperDong;
-import com.somebody.db.MapperUone;
 import com.somebody.db.MapperYoung;
 
 import beans.Pays;
@@ -21,15 +18,11 @@ import kr.co.icia.plzec.services.ProjectUtils;
 
 @Service
 public class Pay extends CommonMethod{
-	@Autowired
-	private MapperBon mb;
-	@Autowired
-	private MapperDong md;
+
 	@Autowired
 	private MapperYoung my;
-	@Autowired
-	private MapperUone mu;
-	
+
+
 	private ModelAndView mav;
 	@Autowired
 	private ProjectUtils pu;
@@ -42,13 +35,13 @@ public class Pay extends CommonMethod{
 
 	private DefaultTransactionDefinition txdef;
 
-	
+
 	public Pay() {
 		mav = new ModelAndView();
 	}
-	
+
 	String page = null;
-	
+
 	public ModelAndView backController(String sCode, Pays pa) {
 
 		switch (sCode) {
@@ -72,8 +65,8 @@ public class Pay extends CommonMethod{
 	}
 
 	public void payMg(Pays pa) {
-System.out.println(pa.getCtCode());
-System.out.println(this.my.payGraph(pa));
+		System.out.println(pa.getCtCode());
+		System.out.println(this.my.payGraph(pa));
 		this.mav.addObject("paGraph", this.my.payGraph(pa));
 		this.mav.addObject("ctCode", pa.getCtCode());
 		mav.setViewName("payMg");

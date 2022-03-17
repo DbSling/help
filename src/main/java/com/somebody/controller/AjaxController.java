@@ -48,8 +48,9 @@ public class AjaxController {
 		this.auth.backController("A06", ct);
 	}
 	@RequestMapping(value = "/meMg", method = RequestMethod.POST)
-	public void meMg(Model model, @RequestBody Members me) {
-		this.me.backController("M01",me);
+	public List<Members> meMg(Model model, @RequestBody Members me, Model md) {
+		this.me.backController("M01",me, md);
+		return (List<Members>) md.getAttribute("meList");
 	}
 
 	@RequestMapping(value = "/searchMeMg", method = RequestMethod.POST)

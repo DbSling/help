@@ -13,7 +13,7 @@ public class Lessons {
 	private String lsProgress;
 	private String lsmeCount;
 	private String lsCaCode;
-	private String lsCaName;
+	private String caName;
 	
 	//수업예약
 	
@@ -21,6 +21,7 @@ public class Lessons {
 	//수업결제
 	private String lpCaCode;
 	private String lpQty;
+	private String lpStocks;
 	private String lpPrice;
 	
 }

@@ -65,8 +65,8 @@ public class ControllerBon {
 		this.auth.backController("A05",ct);
 	}
 	@RequestMapping(value = "/goMePage", method = RequestMethod.POST)
-	public void goMePage(Model model, @ModelAttribute Members me) {
-		this.me.backController("M01", me);
+	public ModelAndView goMePage(Model model, @ModelAttribute Members me) {
+		return this.me.backController("M01", me);
 	}
 
 	

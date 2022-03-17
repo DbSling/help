@@ -500,7 +500,16 @@ function goJoinPage(){
 	form.submit();
 }
 
-		
+function goMePage(ctcode){
+	const form = makeForm("goMember", "goMePage", "POST");
+	const ctCode = makeInputElement("hidden", "ctCode", ctcode, "");
+	
+	form.appendChild(ctCode);
+	
+	document.body.appendChild(form);
+	
+	form.submit();
+}	
 		
 
 

@@ -13,7 +13,7 @@
 	<div class = "menuContainer">
 	<section class = "menuContainer">
 	<article class="topmenu">
-	<span class="topMenu" id="logOut" onClick="logOut()">로그아웃${paGraph[0].paTotal}</span>
+	<span class="topMenu" id="logOut" onClick="logOut()">로그아웃</span>
 	</article>
 	</section>
 	</div>
@@ -49,7 +49,7 @@ new Chart(document.getElementById("bar-chart"), {
         
           label: "만원",
           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
-          data: [${paGraph[0].paTotal},2500,3500]
+          data: [${paGraph[0].paTotal},${paGraph[1].paTotal},${paGraph[2].paTotal}]
         }
       ]
     },
@@ -58,8 +58,8 @@ new Chart(document.getElementById("bar-chart"), {
 			scales: {
 				yAxes: [{
 					ticks: {
-						min: 2000,
-						max: 5000,
+						min: 0,
+						max: 300,
 						fontSize : 12,
 					}
 				}]

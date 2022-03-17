@@ -1,10 +1,15 @@
 package com.somebody.serviece.member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somebody.db.CommonMethod;
@@ -19,14 +24,9 @@ import kr.co.icia.plzec.services.ProjectUtils;
 
 @Service
 public class Member extends CommonMethod{
-	@Autowired
-	private MapperBon mb;
-	@Autowired
-	private MapperDong md;
+
 	@Autowired
 	private MapperYoung my;
-	@Autowired
-	private MapperUone mu;
 	private ModelAndView mav;
 	@Autowired
 	private ProjectUtils pu;
@@ -41,31 +41,47 @@ public class Member extends CommonMethod{
 
 	String page = null;
 
-	public void backController(String sCode, Members me) {
-		String gs = null;
-		String senddata = null;
-
+	public Member() {
+		mav = new ModelAndView();
+	}
+	
+	public ModelAndView backController(String sCode, Members me) {
 		switch (sCode) {
 		//관리자페이지 접근
 		case "M01":
 			goMePage(me);
+			break;
+		}
+		return mav;
+	}
+
+	public void backController(String sCode, Members me, Model md) {
+
+		switch (sCode) {
+		//관리자페이지 접근
 		case "M02":
-			meMg(me);
+			meMg(me, md);
+			break;
 		case "M03":
 			searchMeMg(me);
+			break;
 		case "M04":
-			 meDetail(me);
+			meDetail(me);
+			break;
 		case "M05":
 			getCaList(me);
+			break;
 		case "M06":
 			addMember(me);
+			break;
 		case "M07":
 			modMe(me);
+			break;
 		case "M09":
 			insInbody(me);
 			break;
 
-			
+
 			//회원페이지 접근
 		case "C01":
 			infoLine(me);
@@ -103,7 +119,7 @@ public class Member extends CommonMethod{
 		case "C12":
 			meConfig(me);
 			break;
-		
+
 		case "C15":
 			modMeMg(me);
 			break;
@@ -115,8 +131,9 @@ public class Member extends CommonMethod{
 	}
 
 	public void goMePage(Members me) {
-	
-		
+		this.mav.addObject("ctCode", me.getCtCode());
+		mav.setViewName("meMg");
+
 	}
 
 	public void meInbodyMg(Members me) {
@@ -127,8 +144,11 @@ public class Member extends CommonMethod{
 
 	}
 
-	public void meMg(Members me) {
-
+	public void meMg(Members me, Model md) {
+		List<Members> meList = new ArrayList<Members>();
+		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
+		meList = this.my.meList(me);
+		tranend(true);
 	}
 
 	public void searchMeMg(Members me) {
@@ -191,7 +211,7 @@ public class Member extends CommonMethod{
 
 	}
 
-	
+
 
 	public void modMeMg(Members me) {
 
@@ -205,6 +225,6 @@ public class Member extends CommonMethod{
 
 	}
 
-	
-	
+
+
 }

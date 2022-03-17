@@ -11,7 +11,7 @@ import beans.Staffs;
 public interface MapperYoung {
 	public int is(Centers ct);
 	//Equipments
-	public List<Equipments> Equipment(Equipments eq);
+	public List<Equipments> goodsList(Equipments eq);
 	public List<Equipments> searchGoods(Equipments eq);
 	public List<Equipments> getGoCaList(Equipments eq);
 	public List<Equipments> getGoStList(Equipments eq);
@@ -34,4 +34,7 @@ public interface MapperYoung {
 	public List<Centers> checkCtCode();
 	public int ctJoin(Centers ct);
 	public int firstSfJoin(Staffs sf);
+	//Members
+	public List<Members> meList(Members me);
+	public List<Members> Count(Members me);
 }
