@@ -124,7 +124,7 @@
 		select mgctcode as ctCode, meName,meGender,meBirth,meNumber,caName,mgstcode,lpQty from MeMgView
 		where mgctcode = ${ctCode}
 	</select>
-	<select id="Count" resultType="beans.Members" parameterType="beans.Members">
-		select * from CountView where ctCode = ${ctCode} and meCode = ${meCode} and caName = ${caName}
+	<select id="Count" resultType="int" parameterType="beans.Members">
+		select lpstocks from CountView where ctCode = ${ctCode} and meCode = ${meCode} and caName = ${caName}
 	</select>
 </mapper>

@@ -148,6 +148,10 @@ public class Member extends CommonMethod{
 		List<Members> meList = new ArrayList<Members>();
 		tranconfig(TransactionDefinition.PROPAGATION_REQUIRED, TransactionDefinition.ISOLATION_READ_COMMITTED, false);
 		meList = this.my.meList(me);
+		for(int i=0;i<meList.size();i++) {
+			meList.get(i).setLpStocks(meList.get(i).getLpQty()-this.my.Count(meList.get(i)));
+		}
+		md.addAttribute("meList", meList);
 		tranend(true);
 	}
 
